@@ -1,0 +1,62 @@
+
+no_color() { echo -n '\033[m'; }
+
+red() { echo -n '\033[31m'; }
+
+yellow() { echo -n '\033[33m'; }
+
+magenta() { echo -n '\033[35m'; }
+
+cyan() { echo -n '\033[36m'; }
+
+reset() { echo -n '\033[00m'; }
+
+bold() { echo -n '\033[01m'; }
+
+underline() { echo -n '\033[04m'; }
+
+blink() { echo -n '\033[05m'; }
+
+
+clear() { echo -n '\033[2J'; }
+
+cursor_top() { echo -n '\033[0;0H'; }
+
+no_cursor() { echo -n '\033[>5h'; }
+
+show_cursor() { echo -n '\033[>5l'; }
+
+
+getkey() { stty -echo raw; dd bs=1 count=1 2>/dev/null; stty cooked echo; }
+
+
+# init
+#trap "stty sane" KILL
+#trap "stty sane" STOP
+trap "stty sane" INT
+#trap "stty sane" TERM
+no_cursor
+
+i=1
+while : ; do
+	clear
+	cursor_top	# mintty only
+	reset
+	if [ $i -le 0 ] ; then i=1; fi
+	if [ $i -gt $page_num ] ; then break; fi
+	page$i $i
+	case `getkey` in
+		'' | 'q' ) break ;;
+		'' | ' ' ) i=`expr $i + 1` ;;
+		'' | 'b' ) i=`expr $i - 1` ;;
+		'e'        ) i=$page_num ;;
+		'' | 'z' ) stty sane; kill -TSTP $$; no_cursor ;;
+	esac
+done
+
+# final
+show_cursor
+no_color
+clear
+
+exit
