@@ -3,7 +3,7 @@
 BEGIN {
 	OFS = ""
 
-	print "#!/bin/sh"
+	print "#!/bin/zsh"
 	print ""
 
 	page = 1
@@ -20,10 +20,15 @@ BEGIN {
 	next
 }
 
+{
+	gsub(/'/, "\\047")
+	gsub(/\\/, "\\\\")
+}
+
 !/^%/ {
 	req_reset = -1
 
-	if (/^\*/) {
+	if (/^\s*\*/) {
 		print "yellow; bold"
 	} else if (/^---/) {
 		print "yellow"
