@@ -35,6 +35,10 @@ BEGIN {
 	} else if (/^\s*!!/) {
 		sub(/!!/, "")
 		print "yellow; bold"
+	} else if (/^\s*!/ && /!\s*$/) {
+		sub(/!/, "")
+		sub(/!\s*$/, "")
+		print "yellow; bold"
 	} else if (/^\s*%%/) {
 		sub(/%%/, "")
 		print "yellow"
