@@ -1,40 +1,36 @@
+no_color() { echo -ne '\033[m'; }
 
-no_color() { echo -n '\033[m'; }
+red() { echo -ne '\033[31m'; }
 
-red() { echo -n '\033[31m'; }
+yellow() { echo -ne '\033[33m'; }
 
-yellow() { echo -n '\033[33m'; }
+magenta() { echo -ne '\033[35m'; }
 
-magenta() { echo -n '\033[35m'; }
+cyan() { echo -ne '\033[36m'; }
 
-cyan() { echo -n '\033[36m'; }
+reset() { echo -ne '\033[00m'; }
 
-reset() { echo -n '\033[00m'; }
+bold() { echo -ne '\033[01m'; }
 
-bold() { echo -n '\033[01m'; }
+underline() { echo -ne '\033[04m'; }
 
-underline() { echo -n '\033[04m'; }
+blink() { echo -ne '\033[05m'; }
 
-blink() { echo -n '\033[05m'; }
+clear() { echo -ne '\033[2J'; }
 
+cursor_top() { echo -ne '\033[0;0H'; }
 
-clear() { echo -n '\033[2J'; }
+no_cursor() { echo -ne '\033[>5h'; }
 
-cursor_top() { echo -n '\033[0;0H'; }
+show_cursor() { echo -ne '\033[>5l'; }
 
-no_cursor() { echo -n '\033[>5h'; }
+getkey() { stty -echo raw; dd bs=1 count=1 2>/dev/null; stty echo cooked; }
 
-show_cursor() { echo -n '\033[>5l'; }
-
-
-getkey() { stty -echo raw; dd bs=1 count=1 2>/dev/null; stty cooked echo; }
-
-
-# init
+# initialize
 #trap "stty sane" KILL
 #trap "stty sane" STOP
-trap "stty sane" INT
 #trap "stty sane" TERM
+trap "stty sane" INT
 no_cursor
 
 i=1
@@ -54,9 +50,8 @@ while : ; do
 	esac
 done
 
-# final
+# finalize
 show_cursor
 no_color
 clear
-
 exit

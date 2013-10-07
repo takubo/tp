@@ -3,7 +3,7 @@
 BEGIN {
 	OFS = ""
 
-	print "#!/bin/zsh"
+	print "#!/bin/sh"
 	print ""
 
 	page = 1
@@ -29,27 +29,27 @@ BEGIN {
 	req_reset = -1
 
 	if (/^\s*\*/) {
-		print "yellow; bold"
+		print "  yellow;"
 	} else if (/^---/) {
-		print "yellow"
+		print "  yellow;"
 	} else if (/^\s*!!/) {
 		sub(/!!/, "")
-		print "yellow; bold"
+		print "  yellow;"
 	} else if (/^\s*!/ && /!\s*$/) {
 		sub(/!/, "")
 		sub(/!\s*$/, "")
-		print "yellow; bold"
+		print "  yellow;"
 	} else if (/^\s*%%/) {
 		sub(/%%/, "")
-		print "yellow"
+		print "  yellow;"
 	} else {
 		req_reset = 0
 	}
 
-	print "echo ", "'", $0, "'"
+	print "  echo ", "'", $0, "';"
 
 	if (req_reset) {
-		print "reset"
+		print "  reset;"
 	}
 }
 
@@ -57,6 +57,7 @@ END {
 	print "}"
 	print ""
 	print "page_num=", page
+	print ""
 	print ""
 	system("cat tp_src")
 }
